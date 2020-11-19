@@ -27,7 +27,7 @@ public class InventoryManagement {
 		
 		while (fileScanner.hasNextLine()) {
 			String line = fileScanner.nextLine();
-			String [] lineArr = line.split("|");
+			String [] lineArr = line.split("\\|");
 			
 			String slotLocation = lineArr[0];
 			String productName = lineArr[1];
@@ -63,4 +63,15 @@ public class InventoryManagement {
 	}
 
 }
+	
+	public void viewProducts() {
+		for (Sellable product : sellables) {
+			if (product.getQuantity() == 0) {
+				System.out.println(product.getSlotLocation() + " " + product.getName() + " " + product.getPrice() + " SOLD OUT");
+			}
+			else {
+				System.out.println(product.getSlotLocation() + " " + product.getName() + " $" + product.getPrice() + product.getQuantity() + " avaialabe");
+			}
+		}
+	}
 }
