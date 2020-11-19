@@ -1,57 +1,68 @@
 package materials;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Funds {
 	
-	private BigDecimal balance = new BigDecimal(0);
+	private BigDecimal balance = new BigDecimal(0.00);;
+	
+	/*public void Funds() {
+		this.balance = new BigDecimal(0.00);
+		this.balance.setScale(2, RoundingMode.HALF_UP);
+	}*/
 
+	
 	public BigDecimal getBalance() {
+		balance = balance.setScale(2, RoundingMode.HALF_UP);
 		return balance;
 	}
 
 	public void addAmount(BigDecimal amountAdded) {
 		this.balance = balance.add(amountAdded);
+		balance = this.balance.setScale(2, RoundingMode.HALF_UP);
 	}
 	
 	public void subtractAmount(BigDecimal amountSubtracted) {
 		this.balance = balance.subtract(amountSubtracted);
+		balance = this.balance.setScale(2, RoundingMode.HALF_UP);
 	}
 	
-	public String getChange (BigDecimal remainingBalance) {
+	public String getChange () {
 		
 		BigDecimal quarterValue = new BigDecimal(0.25);
 		BigDecimal dimeValue = new BigDecimal(0.10);
 		BigDecimal nickelValue = new BigDecimal(0.05);
 		BigDecimal changeDue = new BigDecimal (0.0);
+		BigDecimal yourChange = this.balance;
 		
 		
 		int quarters = 0;
 		int dimes = 0;
 		int nickels = 0;
-		while (remainingBalance.compareTo(quarterValue) > 0) {
+		while (this.balance.compareTo(quarterValue) >= 0) {
 			
-			remainingBalance.subtract(quarterValue);
+			subtractAmount(quarterValue);
 			quarters += 1;
 			changeDue.add(quarterValue);
 			
 		}
 		
-		while (remainingBalance.compareTo(dimeValue) > 0) {
+		while (this.balance.compareTo(dimeValue) >= 0) {
 			
-			remainingBalance.subtract(dimeValue);
+			subtractAmount(dimeValue);
 			dimes += 1;
 			changeDue.add(dimeValue);
 		}
 		
-		while (remainingBalance.compareTo(nickelValue) > 0) {
+		while (this.balance.compareTo(nickelValue) >= 0) {
 			
-			remainingBalance.subtract(nickelValue);
+			subtractAmount(nickelValue);
 			nickels += 1;
 			changeDue.add(nickelValue);
 			
 		}
-		return "Your change : " + changeDue + "\n" + "Quarters: " + quarters +  "\n" + "Dimes: " + dimes + "\n" + "Nickels: " + nickels;
+		return "Your change : " + yourChange + "\n" + "Quarters: " + quarters +  "\n" + "Dimes: " + dimes + "\n" + "Nickels: " + nickels;
 	}
 	
 	

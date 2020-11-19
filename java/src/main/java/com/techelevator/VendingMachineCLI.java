@@ -54,9 +54,9 @@ public class VendingMachineCLI {
 			
 			if (selection.contentEquals("1")) {
 				
-				funds.setBalance(new BigDecimal(1));
+				funds.addAmount(new BigDecimal(1));
 			} else if (selection.contentEquals("5")) {
-				funds.setBalance(new BigDecimal(5));
+				funds.addAmount(new BigDecimal(5));
 			}
 			System.out.println("You have $"+ funds.getBalance());
 		}
