@@ -24,12 +24,13 @@ public class VendingMachineCLI {
 	}
 
 	public void run() {
+		inventory.restock("vendingmachine.csv");
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS, new BigDecimal(-1));
 			System.out.println("You selected: " + choice);
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
-				// display vending machine items
+				inventory.viewProducts();
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				
 				String selection = "";

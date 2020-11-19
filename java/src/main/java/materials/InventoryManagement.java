@@ -91,11 +91,11 @@ public class InventoryManagement {
 	public void viewProducts() {
 		for (Sellable product : sellables) {
 			if (product.getQuantity() == 0) {
-				System.out.println(product.getSlotLocation() + " " + product.getName() + " $" + product.getPrice() + " SOLD OUT");
+				 System.out.println(product.getSlotLocation() + " " + product.getName() + " $" + product.getPrice() + " SOLD OUT");
 			}
-			else {
-				System.out.println(product.getSlotLocation() + " " + product.getName() + " $" + product.getPrice() + " " + product.getQuantity() + " available");
-			}
+			
+			System.out.println(product.getSlotLocation() + " " + product.getName() + " $" + product.getPrice() + " " + product.getQuantity() + " available");
+			
 		}
 	}
 	
