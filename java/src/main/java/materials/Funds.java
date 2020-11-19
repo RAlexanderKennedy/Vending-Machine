@@ -31,9 +31,11 @@ public class Funds {
 	public String getChange () {
 		
 		BigDecimal quarterValue = new BigDecimal(0.25);
+		quarterValue = quarterValue.setScale(2, RoundingMode.HALF_UP);
 		BigDecimal dimeValue = new BigDecimal(0.10);
+		dimeValue = dimeValue.setScale(2, RoundingMode.HALF_UP);
 		BigDecimal nickelValue = new BigDecimal(0.05);
-		BigDecimal changeDue = new BigDecimal (0.0);
+		nickelValue = nickelValue.setScale(2, RoundingMode.HALF_UP);
 		BigDecimal yourChange = this.balance;
 		
 		
@@ -44,7 +46,6 @@ public class Funds {
 			
 			subtractAmount(quarterValue);
 			quarters += 1;
-			changeDue.add(quarterValue);
 			
 		}
 		
@@ -52,14 +53,12 @@ public class Funds {
 			
 			subtractAmount(dimeValue);
 			dimes += 1;
-			changeDue.add(dimeValue);
 		}
 		
 		while (this.balance.compareTo(nickelValue) >= 0) {
 			
 			subtractAmount(nickelValue);
 			nickels += 1;
-			changeDue.add(nickelValue);
 			
 		}
 		return "Your change : " + yourChange + "\n" + "Quarters: " + quarters +  "\n" + "Dimes: " + dimes + "\n" + "Nickels: " + nickels;

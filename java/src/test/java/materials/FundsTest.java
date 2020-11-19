@@ -24,7 +24,7 @@ public class FundsTest {
 		fifteen = fifteen.setScale(2, RoundingMode.HALF_UP);
 		Funds testFund = new Funds();
 		testFund.addAmount(fifteen);
-		Assert.assertEquals(testFund.getBalance(), fifteen); 
+		Assert.assertEquals(fifteen, testFund.getBalance()); 
 	}
 	
 	@Test
@@ -38,11 +38,11 @@ public class FundsTest {
 		
 		Funds testFund = new Funds();
 		testFund.addAmount(thirty);
-		Assert.assertEquals(testFund.getBalance(), thirty); 
+		Assert.assertEquals(thirty, testFund.getBalance()); 
 		testFund.subtractAmount(fifteen);
-		Assert.assertEquals(testFund.getBalance(), fifteen); 
+		Assert.assertEquals(fifteen, testFund.getBalance()); 
 		testFund.subtractAmount(fifteen);
-		Assert.assertEquals(testFund.getBalance(), zero); 
+		Assert.assertEquals(zero, testFund.getBalance()); 
 	}
 	
 	
@@ -60,20 +60,67 @@ public class FundsTest {
 		
 		Funds testFund = new Funds();
 		testFund.addAmount(bd1);
-		Assert.assertEquals(testFund.getBalance(), bd1); 
+		Assert.assertEquals(bd1, testFund.getBalance()); 
 		testFund.subtractAmount(bd2);
-		Assert.assertEquals(testFund.getBalance(), bd3); 
+		Assert.assertEquals(bd3, testFund.getBalance()); 
 		testFund.subtractAmount(bd3);
-		Assert.assertEquals(testFund.getBalance(), zero); 
+		Assert.assertEquals(zero, testFund.getBalance()); 
 	}
 	
 	@Test
-	public void give_change_test() {
+	public void give_change_test_1() {
 		Funds testFund = new Funds();
 		testFund.addAmount(new BigDecimal(1.00));
 		String expected = "Your change : " + testFund.getBalance() + "\n" + "Quarters: " + 4 + "\n" + "Dimes: " + 0 + "\n" + "Nickels: " + 0;
 		String actual = testFund.getChange();
 		Assert.assertEquals(expected, actual);
+		
+		// testing to make sure current balance is $0
+		BigDecimal zero = new BigDecimal(0);
+		zero = zero.setScale(2, RoundingMode.HALF_UP);
+		Assert.assertEquals(zero, testFund.getBalance()); 
+	}
+	
+	@Test
+	public void give_change_test_2() {
+		Funds testFund = new Funds();
+		testFund.addAmount(new BigDecimal(0.95));
+		String expected = "Your change : " + testFund.getBalance() + "\n" + "Quarters: " + 3 + "\n" + "Dimes: " + 2 + "\n" + "Nickels: " + 0;
+		String actual = testFund.getChange();
+		Assert.assertEquals(expected, actual);
+		
+		// testing to make sure current balance is $0
+		BigDecimal zero = new BigDecimal(0);
+		zero = zero.setScale(2, RoundingMode.HALF_UP);
+		Assert.assertEquals(zero, testFund.getBalance());
+	}
+	
+	@Test
+	public void give_change_test_3() {
+		Funds testFund = new Funds();
+		testFund.addAmount(new BigDecimal(0.90));
+		String expected = "Your change : " + testFund.getBalance() + "\n" + "Quarters: " + 3 + "\n" + "Dimes: " + 1 + "\n" + "Nickels: " + 1;
+		String actual = testFund.getChange();
+		Assert.assertEquals(expected, actual);
+		
+		// testing to make sure current balance is $0
+		BigDecimal zero = new BigDecimal(0);
+		zero = zero.setScale(2, RoundingMode.HALF_UP);
+		Assert.assertEquals(zero, testFund.getBalance());
+	}
+	
+	@Test
+	public void give_change_test_4() {
+		Funds testFund = new Funds();
+		testFund.addAmount(new BigDecimal(5.15));
+		String expected = "Your change : " + testFund.getBalance() + "\n" + "Quarters: " + 20 + "\n" + "Dimes: " + 1 + "\n" + "Nickels: " + 1;
+		String actual = testFund.getChange();
+		Assert.assertEquals(expected, actual);
+		
+		// testing to make sure current balance is $0
+		BigDecimal zero = new BigDecimal(0);
+		zero = zero.setScale(2, RoundingMode.HALF_UP);
+		Assert.assertEquals(zero, testFund.getBalance());
 	}
 	
 	
