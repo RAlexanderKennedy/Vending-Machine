@@ -2,6 +2,7 @@ package com.techelevator.view;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,7 +27,7 @@ public class MenuTest {
 		Object[] options = new Object[] { Integer.valueOf(3), "Blind", "Mice" };
 		Menu menu = getMenuForTesting();
 
-		menu.getChoiceFromOptions(options);
+		menu.getChoiceFromOptions(options, new BigDecimal(-1));
 
 		String expected = "\n" + "1) " + options[0].toString() + "\n" + "2) " + options[1].toString() + "\n" + "3) "
 				+ options[2].toString() + "\n\n" + "Please choose an option >>> ";
@@ -39,7 +40,7 @@ public class MenuTest {
 		Integer[] options = new Integer[] { Integer.valueOf(123), expected, Integer.valueOf(789) };
 		Menu menu = getMenuForTestingWithUserInput("2\n");
 
-		Integer result = (Integer) menu.getChoiceFromOptions(options);
+		Integer result = (Integer) menu.getChoiceFromOptions(options, new BigDecimal(-1));
 
 		Assert.assertEquals(expected, result);
 	}
@@ -49,7 +50,7 @@ public class MenuTest {
 		Object[] options = new Object[] { "Larry", "Curly", "Moe" };
 		Menu menu = getMenuForTestingWithUserInput("4\n1\n");
 
-		menu.getChoiceFromOptions(options);
+		menu.getChoiceFromOptions(options, new BigDecimal(-1));
 
 		String menuDisplay = "\n" + "1) " + options[0].toString() + "\n" + "2) " + options[1].toString() + "\n" + "3) "
 				+ options[2].toString() + "\n\n" + "Please choose an option >>> ";
@@ -64,7 +65,7 @@ public class MenuTest {
 		Object[] options = new Object[] { "Larry", "Curly", "Moe" };
 		Menu menu = getMenuForTestingWithUserInput("0\n1\n");
 
-		menu.getChoiceFromOptions(options);
+		menu.getChoiceFromOptions(options,new BigDecimal(-1));
 
 		String menuDisplay = "\n" + "1) " + options[0].toString() + "\n" + "2) " + options[1].toString() + "\n" + "3) "
 				+ options[2].toString() + "\n\n" + "Please choose an option >>> ";
@@ -79,7 +80,7 @@ public class MenuTest {
 		Object[] options = new Object[] { "Larry", "Curly", "Moe" };
 		Menu menu = getMenuForTestingWithUserInput("Mickey Mouse\n1\n");
 
-		menu.getChoiceFromOptions(options);
+		menu.getChoiceFromOptions(options, new BigDecimal(-1));
 
 		String menuDisplay = "\n" + "1) " + options[0].toString() + "\n" + "2) " + options[1].toString() + "\n" + "3) "
 				+ options[2].toString() + "\n\n" + "Please choose an option >>> ";

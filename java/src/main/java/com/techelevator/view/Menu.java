@@ -3,7 +3,10 @@ package com.techelevator.view;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.Scanner;
+
+import materials.Funds;
 
 public class Menu {
 
@@ -15,10 +18,10 @@ public class Menu {
 		this.in = new Scanner(input);
 	}
 
-	public Object getChoiceFromOptions(Object[] options) {
+	public Object getChoiceFromOptions(Object[] options, BigDecimal bd) {
 		Object choice = null;
 		while (choice == null) {
-			displayMenuOptions(options);
+			displayMenuOptions(options, bd);
 			choice = getChoiceFromUserInput(options);
 		}
 		return choice;
@@ -41,11 +44,15 @@ public class Menu {
 		return choice;
 	}
 
-	private void displayMenuOptions(Object[] options) {
+	private void displayMenuOptions(Object[] options, BigDecimal bd) {
 		out.println();
 		for (int i = 0; i < options.length; i++) {
 			int optionNum = i + 1;
 			out.println(optionNum + ") " + options[i]);
+		}
+		if (!bd.equals(new BigDecimal(-1))) {
+			out.println();
+			out.println("Current Money Provided: $" + bd);
 		}
 		out.print("\nPlease choose an option >>> ");
 		out.flush();

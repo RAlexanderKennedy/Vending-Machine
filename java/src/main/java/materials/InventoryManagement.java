@@ -3,6 +3,7 @@ package materials;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -26,8 +27,24 @@ public class InventoryManagement {
 		return sellables.get(index);
 	}
 	
+	public void purchaseSellable(int index) {
+		sellables.get(index).decreaseQuantity();
+	}
+	
 	
 	public void restock(String fileName) {
+		// overwriting Log.txt (if it already exists)
+		File log = new File("Log.txt");
+		if (log.exists()) {
+			try (PrintWriter writer = new PrintWriter(log)) {
+				writer.print("");
+				writer.close();
+			} catch (FileNotFoundException e) {
+				
+			}
+		}
+		
+		
 		File inputFile = new File(fileName);
 		
 		try(Scanner fileScanner = new Scanner(inputFile)){
@@ -82,15 +99,15 @@ public class InventoryManagement {
 		}
 	}
 	
-	public void auditPurchase(Sellable soldItem, BigDecimal balance) {
+	public void auditPurchase(Sellable soldItem, BigDecimal balance) throws IOException {
 		
 		String timeFormat = "dd'/'MM'/'yyyy' 'hh:mm:ss a";
-		DateFormat dateFormat = new SimpleDateFormat(timeFormat);
 		
 		File log = new File("Log.txt");
 		LocalDateTime dateTime = LocalDateTime.now();
 		try(PrintWriter tracker = new PrintWriter(new FileOutputStream(log,true))){
-			tracker.println(dateTime.format(DateTimeFormatter.ofPattern(timeFormat)) + " " + soldItem.getName() + " " + soldItem.getSlotLocation() + " " + soldItem.getPrice() + " " + balance);
+			BigDecimal newBalance = balance.subtract(soldItem.getPrice());
+			tracker.println(dateTime.format(DateTimeFormatter.ofPattern(timeFormat)) + " " + soldItem.getName() + " " + soldItem.getSlotLocation() + " $" + balance + " $" + newBalance);
 		} catch (FileNotFoundException e) {
 			System.out.println("Audit error: log not found");
 		}
@@ -99,7 +116,6 @@ public class InventoryManagement {
 	public void auditFeed(BigDecimal amountAdded, BigDecimal balance) {
 		
 		String timeFormat = "dd'/'MM'/'yyyy' 'hh:mm:ss a";
-		DateFormat dateFormat = new SimpleDateFormat(timeFormat);
 		
 		File log = new File("Log.txt");
 		LocalDateTime dateTime = LocalDateTime.now();
@@ -110,10 +126,9 @@ public class InventoryManagement {
 		}
 	}
 	
-	public void auditFeed(BigDecimal balance) {
+	public void auditChange(BigDecimal balance) {
 		
 		String timeFormat = "dd'/'MM'/'yyyy' 'hh:mm:ss a";
-		DateFormat dateFormat = new SimpleDateFormat(timeFormat);
 		
 		File log = new File("Log.txt");
 		LocalDateTime dateTime = LocalDateTime.now();
