@@ -5,7 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -78,12 +82,43 @@ public class InventoryManagement {
 		}
 	}
 	
-	public void auditPurchase(Sellable soldItem) {
+	public void auditPurchase(Sellable soldItem, BigDecimal balance) {
+		
+		String timeFormat = "dd'/'MM'/'yyyy' 'hh:mm:ss a";
+		DateFormat dateFormat = new SimpleDateFormat(timeFormat);
 		
 		File log = new File("Log.txt");
-		
+		LocalDateTime dateTime = LocalDateTime.now();
 		try(PrintWriter tracker = new PrintWriter(new FileOutputStream(log,true))){
-			tracker.println
+			tracker.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern(timeFormat)) + " " + soldItem.getName() + " " + soldItem.getSlotLocation() + " " + soldItem.getPrice() + " " + balance);
+		} catch (FileNotFoundException e) {
+			System.out.println("Audit error: log not found");
+		}
+	}
+	
+	public void auditFeed(BigDecimal amountAdded, BigDecimal balance) {
+		
+		String timeFormat = "dd'/'MM'/'yyyy' 'hh:mm:ss a";
+		DateFormat dateFormat = new SimpleDateFormat(timeFormat);
+		
+		File log = new File("Log.txt");
+		LocalDateTime dateTime = LocalDateTime.now();
+		try(PrintWriter tracker = new PrintWriter(new FileOutputStream(log,true))){
+			tracker.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern(timeFormat)) + " " + "FEED MONEY: $" + amountAdded + " $" + balance);
+		} catch (FileNotFoundException e) {
+			System.out.println("Audit error: log not found");
+		}
+	}
+	
+	public void auditFeed(BigDecimal balance) {
+		
+		String timeFormat = "dd'/'MM'/'yyyy' 'hh:mm:ss a";
+		DateFormat dateFormat = new SimpleDateFormat(timeFormat);
+		
+		File log = new File("Log.txt");
+		LocalDateTime dateTime = LocalDateTime.now();
+		try(PrintWriter tracker = new PrintWriter(new FileOutputStream(log,true))){
+			tracker.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern(timeFormat)) + " " + "GIVE CHANGE: $" + balance + " $0.00");
 		} catch (FileNotFoundException e) {
 			System.out.println("Audit error: log not found");
 		}
