@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import com.techelevator.view.Menu;
 
 import materials.Funds;
+import materials.InventoryManagement;
 
 public class VendingMachineCLI {
 
@@ -15,19 +16,21 @@ public class VendingMachineCLI {
 	private static final String[] FEED_MONEY_MENU = {"1", "5", "10", "Back"};
 
 	private Menu menu;
-	protected Funds funds = new Funds();
+	private Funds funds = new Funds();
+	private InventoryManagement inventory = new InventoryManagement();
 
 	public VendingMachineCLI(Menu menu) {
 		this.menu = menu;
 	}
 
 	public void run() {
+		inventory.restock("vendingmachine.csv");
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS, new BigDecimal(-1));
 			System.out.println("You selected: " + choice);
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
-				// display vending machine items
+				inventory.viewProducts();
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				
 				String selection = "";
