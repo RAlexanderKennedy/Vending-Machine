@@ -6,29 +6,26 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class InventoryManagement {
 	
-	private List<Sellable> sellables = new ArrayList<Sellable>();
+	private Map<String, Sellable> sellables = new HashMap<String, Sellable>();
 	
 	public int getSize() {
 		return sellables.size();
 	}
 	
-	public Sellable getSellableAt(int index) {
-		return sellables.get(index);
+	public Sellable getSellableAt(String slotLocation) {
+		return sellables.get(slotLocation);
 	}
 	
-	public void purchaseSellable(int index) {
-		sellables.get(index).decreaseQuantity();
+	public void purchaseSellable(String slotLocation) {
+		sellables.get(slotLocation).decreaseQuantity();
 	}
 	
 	
@@ -60,24 +57,24 @@ public class InventoryManagement {
 			if (category.contentEquals("Drink")) {
 				
 				Beverage product = new Beverage(slotLocation, productName, price);
-				sellables.add(product);
+				sellables.put(slotLocation, product);
 			}
 			
 			if (category.contentEquals("Chip")) {
 				
 				Chips product = new Chips(slotLocation, productName, price);
-				sellables.add(product);
+				sellables.put(slotLocation,product);
 			}
 			if (category.contentEquals("Gum")) {
 				
 				Gum product = new Gum(slotLocation, productName, price);
-				sellables.add(product);
+				sellables.put(slotLocation, product);
 			}
 			
 			if (category.contentEquals("Candy")) {
 				
 				Candy product = new Candy(slotLocation, productName, price);
-				sellables.add(product);
+				sellables.put(slotLocation, product);
 			}
 		}
 	} catch (FileNotFoundException e) {
@@ -89,12 +86,14 @@ public class InventoryManagement {
 }
 	
 	public void viewProducts() {
-		for (Sellable product : sellables) {
-			if (product.getQuantity() == 0) {
-				 System.out.println(product.getSlotLocation() + " " + product.getName() + " $" + product.getPrice() + " SOLD OUT");
+		for (Map.Entry<String, Sellable> product : sellables.entrySet()) {
+			
+			Sellable value = product.getValue();
+			if (value.getQuantity() == 0) {
+				 System.out.println(value.getSlotLocation() + " " + value.getName() + " $" + value.getPrice() + " SOLD OUT");
 			}
 			
-			System.out.println(product.getSlotLocation() + " " + product.getName() + " $" + product.getPrice() + " " + product.getQuantity() + " available");
+			System.out.println(value.getSlotLocation() + " " + value.getName() + " $" + value.getPrice() + " " + value.getQuantity() + " available");
 			
 		}
 	}
