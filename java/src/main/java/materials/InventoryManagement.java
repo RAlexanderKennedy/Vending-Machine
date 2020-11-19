@@ -2,7 +2,10 @@ package materials;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -70,8 +73,20 @@ public class InventoryManagement {
 				System.out.println(product.getSlotLocation() + " " + product.getName() + " $" + product.getPrice() + " SOLD OUT");
 			}
 			else {
-				System.out.println(product.getSlotLocation() + " " + product.getName() + " $" + product.getPrice() + product.getQuantity() + " avaialabe");
+				System.out.println(product.getSlotLocation() + " " + product.getName() + " $" + product.getPrice() + " " + product.getQuantity() + " available");
 			}
 		}
 	}
+	
+	public void auditPurchase(Sellable soldItem) {
+		
+		File log = new File("Log.txt");
+		
+		try(PrintWriter tracker = new PrintWriter(new FileOutputStream(log,true))){
+			tracker.println
+		} catch (FileNotFoundException e) {
+			System.out.println("Audit error: log not found");
+		}
+	}
+	
 }
