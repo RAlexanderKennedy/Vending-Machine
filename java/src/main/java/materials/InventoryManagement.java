@@ -90,7 +90,7 @@ public class InventoryManagement {
 		File log = new File("Log.txt");
 		LocalDateTime dateTime = LocalDateTime.now();
 		try(PrintWriter tracker = new PrintWriter(new FileOutputStream(log,true))){
-			tracker.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern(timeFormat)) + " " + soldItem.getName() + " " + soldItem.getSlotLocation() + " " + soldItem.getPrice() + " " + balance);
+			tracker.println(dateTime.format(DateTimeFormatter.ofPattern(timeFormat)) + " " + soldItem.getName() + " " + soldItem.getSlotLocation() + " " + soldItem.getPrice() + " " + balance);
 		} catch (FileNotFoundException e) {
 			System.out.println("Audit error: log not found");
 		}
@@ -104,7 +104,7 @@ public class InventoryManagement {
 		File log = new File("Log.txt");
 		LocalDateTime dateTime = LocalDateTime.now();
 		try(PrintWriter tracker = new PrintWriter(new FileOutputStream(log,true))){
-			tracker.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern(timeFormat)) + " " + "FEED MONEY: $" + amountAdded + " $" + balance);
+			tracker.println(dateTime.format(DateTimeFormatter.ofPattern(timeFormat)) + " " + "FEED MONEY: $" + amountAdded + " $" + balance);
 		} catch (FileNotFoundException e) {
 			System.out.println("Audit error: log not found");
 		}
@@ -118,7 +118,7 @@ public class InventoryManagement {
 		File log = new File("Log.txt");
 		LocalDateTime dateTime = LocalDateTime.now();
 		try(PrintWriter tracker = new PrintWriter(new FileOutputStream(log,true))){
-			tracker.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern(timeFormat)) + " " + "GIVE CHANGE: $" + balance + " $0.00");
+			tracker.println(dateTime.format(DateTimeFormatter.ofPattern(timeFormat)) + " " + "GIVE CHANGE: $" + balance + " $0.00");
 		} catch (FileNotFoundException e) {
 			System.out.println("Audit error: log not found");
 		}
