@@ -36,7 +36,7 @@ public class InventoryManagementTest {
 	public void restock_3_items_test_items_1() {
 		InventoryManagement testInventory = new InventoryManagement();
 		testInventory.restock("test_vendingmachine.csv");
-		Sellable sellable = testInventory.getSellableAt(0);
+		Sellable sellable = testInventory.getSellableAt("A1");
 		
 		BigDecimal bd = new BigDecimal(3.05);
 		bd = bd.setScale(2, RoundingMode.HALF_UP);
@@ -50,7 +50,7 @@ public class InventoryManagementTest {
 	public void restock_3_items_test_items_2() {
 		InventoryManagement testInventory = new InventoryManagement();
 		testInventory.restock("test_vendingmachine.csv");
-		Sellable sellable = testInventory.getSellableAt(1);
+		Sellable sellable = testInventory.getSellableAt("A2");
 		
 		BigDecimal bd = new BigDecimal(1.45);
 		bd = bd.setScale(2, RoundingMode.HALF_UP);
@@ -64,7 +64,7 @@ public class InventoryManagementTest {
 	public void restock_3_items_test_items_3() {
 		InventoryManagement testInventory = new InventoryManagement();
 		testInventory.restock("test_vendingmachine.csv");
-		Sellable sellable = testInventory.getSellableAt(2);
+		Sellable sellable = testInventory.getSellableAt("A3");
 		
 		BigDecimal bd = new BigDecimal(2.75);
 		bd = bd.setScale(2, RoundingMode.HALF_UP);
@@ -78,7 +78,7 @@ public class InventoryManagementTest {
 	public void restock_16_items_test_items_1() {
 		InventoryManagement testInventory = new InventoryManagement();
 		testInventory.restock("vendingmachine.csv");
-		Sellable sellable = testInventory.getSellableAt(10);
+		Sellable sellable = testInventory.getSellableAt("C3");
 		
 		BigDecimal bd = new BigDecimal(1.50);
 		bd = bd.setScale(2, RoundingMode.HALF_UP);
@@ -92,7 +92,7 @@ public class InventoryManagementTest {
 	public void restock_16_items_test_items_2() {
 		InventoryManagement testInventory = new InventoryManagement();
 		testInventory.restock("vendingmachine.csv");
-		Sellable sellable = testInventory.getSellableAt(15);
+		Sellable sellable = testInventory.getSellableAt("D4");
 		
 		BigDecimal bd = new BigDecimal(0.75);
 		bd = bd.setScale(2, RoundingMode.HALF_UP);
@@ -106,7 +106,7 @@ public class InventoryManagementTest {
 	public void log_test() throws IOException {
 		InventoryManagement testInventory = new InventoryManagement();
 		testInventory.restock("vendingmachine.csv");
-		Sellable sellable = testInventory.getSellableAt(15);
+		Sellable sellable = testInventory.getSellableAt("D4");
 		testInventory.auditChange(new BigDecimal(25));
 	}
 	

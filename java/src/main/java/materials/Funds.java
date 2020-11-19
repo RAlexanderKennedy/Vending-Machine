@@ -61,7 +61,7 @@ public class Funds {
 			nickels += 1;
 			
 		}
-		return "Your change : " + yourChange + "\n" + "Quarters: " + quarters +  "\n" + "Dimes: " + dimes + "\n" + "Nickels: " + nickels;
+		return "Your change : $" + yourChange + "\n" + "Quarters: " + quarters +  "\n" + "Dimes: " + dimes + "\n" + "Nickels: " + nickels;
 	}
 	
 	

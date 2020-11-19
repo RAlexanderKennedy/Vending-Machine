@@ -24,6 +24,10 @@ public class InventoryManagement {
 		return sellables.get(slotLocation);
 	}
 	
+	public boolean sellableExists(String slotLocation) {
+		return sellables.containsKey(slotLocation);
+	}
+	
 	public void purchaseSellable(String slotLocation) {
 		sellables.get(slotLocation).decreaseQuantity();
 	}
@@ -93,12 +97,12 @@ public class InventoryManagement {
 				 System.out.println(value.getSlotLocation() + " " + value.getName() + " $" + value.getPrice() + " SOLD OUT");
 			}
 			
-			System.out.println(value.getSlotLocation() + " " + value.getName() + " $" + value.getPrice() + " " + value.getQuantity() + " available");
+			else System.out.println(value.getSlotLocation() + " " + value.getName() + " $" + value.getPrice() + " " + value.getQuantity() + " available");
 			
 		}
 	}
 	
-	public void auditPurchase(Sellable soldItem, BigDecimal balance) throws IOException {
+	public void auditPurchase(Sellable soldItem, BigDecimal balance) {
 		
 		String timeFormat = "dd'/'MM'/'yyyy' 'hh:mm:ss a";
 		

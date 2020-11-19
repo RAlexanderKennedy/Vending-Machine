@@ -30,6 +30,7 @@ public class VendingMachineCLI {
 			System.out.println("You selected: " + choice);
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
+				System.out.println();
 				inventory.viewProducts();
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				
@@ -50,8 +51,9 @@ public class VendingMachineCLI {
 					
 					if (selection.equals("Finish Transaction")) {
 						System.out.println("You selected " + selection);
-						funds.getChange();
-						inventory.
+						inventory.auditChange(funds.getBalance());
+						System.out.println(funds.getChange());
+						
 						// changing value of 'selection' so that user returns to main menu
 						selection = "Back";
 					}
@@ -98,26 +100,47 @@ public class VendingMachineCLI {
 		boolean valid = false;
 		while (!valid) {
 			System.out.println();
-			System.out.print("Please enter a code for an item (or enter 'Back' to return to purchase menu) >>>");
+			inventory.viewProducts();
+			System.out.println();
+			
+			System.out.print("Please enter a code for an item (or enter 'Back' to return to purchase menu) >>> ");
+			System.out.println();
 		
 			Scanner scanner = new Scanner(System.in);
 			String userCode = scanner.nextLine();
 			
-			if (/*item does not exist*/) {
-				
-			}
-			else if (/*item is sold out*/) {
-				
-			}
-			else if (userCode.toLowerCase().equals("back")) {
+			
+			if (userCode.toLowerCase().equals("back")) {
 				valid = true;
+			}
+			else if (!inventory.sellableExists(userCode)) {
+				System.out.println("Invalid item code.");
+			}
+			else if (inventory.getSellableAt(userCode).getQuantity() == 0) {
+				System.out.println("Sorry, item is sold out.");
 			}
 			else {
-				// Print 'Dispensing <item name: item price>"
-				// Print "Money Remaining: x"
-				// Print item type message
-				// Update audit
-				valid = true;
+				
+				// grabbing sellable at code
+				Sellable sellable = inventory.getSellableAt(userCode);
+				if (funds.getBalance().compareTo(sellable.getPrice()) >= 0) {
+					// auditing purchase
+					inventory.auditPurchase(sellable, funds.getBalance());
+					System.out.println("Dispensing " + sellable.getName() + " for $" + sellable.getPrice());
+					// subtracting price from funds
+					funds.subtractAmount(sellable.getPrice());
+					System.out.println("Money remaining: $" + funds.getBalance());
+					// decreasing quantity of items by one
+					inventory.getSellableAt(userCode).decreaseQuantity();
+					// printing item message
+					System.out.println(sellable.printMethod());
+					valid = true;
+				}
+				else {
+					System.out.println("You don't have enough funds for this item.");
+				}
+				
+
 			}
 		}
 		
