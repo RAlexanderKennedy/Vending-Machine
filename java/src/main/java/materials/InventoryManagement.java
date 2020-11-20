@@ -8,13 +8,16 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class InventoryManagement {
 	
 	private Map<String, Sellable> sellables = new HashMap<String, Sellable>();
+	private List<Sellable> orderedSellables = new ArrayList<Sellable>();
 	
 	public int getSize() {
 		return sellables.size();
@@ -62,23 +65,27 @@ public class InventoryManagement {
 				
 				Beverage product = new Beverage(slotLocation, productName, price);
 				sellables.put(slotLocation, product);
+				orderedSellables.add(product);
 			}
 			
 			if (category.contentEquals("Chip")) {
 				
 				Chips product = new Chips(slotLocation, productName, price);
 				sellables.put(slotLocation,product);
+				orderedSellables.add(product);
 			}
 			if (category.contentEquals("Gum")) {
 				
 				Gum product = new Gum(slotLocation, productName, price);
 				sellables.put(slotLocation, product);
+				orderedSellables.add(product);
 			}
 			
 			if (category.contentEquals("Candy")) {
 				
 				Candy product = new Candy(slotLocation, productName, price);
 				sellables.put(slotLocation, product);
+				orderedSellables.add(product);
 			}
 		}
 	} catch (FileNotFoundException e) {
@@ -90,14 +97,13 @@ public class InventoryManagement {
 }
 	
 	public void viewProducts() {
-		for (Map.Entry<String, Sellable> product : sellables.entrySet()) {
+		for (Sellable product : orderedSellables) {
 			
-			Sellable value = product.getValue();
-			if (value.getQuantity() == 0) {
-				 System.out.println(value.getSlotLocation() + " " + value.getName() + " $" + value.getPrice() + " SOLD OUT");
+			if (product.getQuantity() == 0) {
+				 System.out.println(product.getSlotLocation() + " " + product.getName() + " $" + product.getPrice() + " SOLD OUT");
 			}
 			
-			else System.out.println(value.getSlotLocation() + " " + value.getName() + " $" + value.getPrice() + " " + value.getQuantity() + " available");
+			else System.out.println(product.getSlotLocation() + " " + product.getName() + " $" + product.getPrice() + " " + product.getQuantity() + " available");
 			
 		}
 	}
