@@ -18,6 +18,7 @@ public class InventoryManagement {
 	
 	private Map<String, Sellable> sellables = new HashMap<String, Sellable>();
 	private List<Sellable> orderedSellables = new ArrayList<Sellable>();
+	private Map<String, Integer> sales = new HashMap<String, Integer>();
 	
 	public int getSize() {
 		return sellables.size();
@@ -27,12 +28,23 @@ public class InventoryManagement {
 		return sellables.get(slotLocation);
 	}
 	
+	public Integer getSalesAt(String productName) {
+		return sales.get(productName);
+	}
+	
 	public boolean sellableExists(String slotLocation) {
 		return sellables.containsKey(slotLocation);
 	}
 	
+	public boolean salesExists(String productName) {
+		return sales.containsKey(productName);
+	}
+	
 	public void purchaseSellable(String slotLocation) {
 		sellables.get(slotLocation).decreaseQuantity();
+		Integer itemSold = sales.get(sellables.get(slotLocation).getName());
+		itemSold += 1;
+		sales.put(sellables.get(slotLocation).getName(),itemSold);
 	}
 	
 	
@@ -47,6 +59,7 @@ public class InventoryManagement {
 		} catch (FileNotFoundException e) {
 			System.out.println("Audit error: log not found");
 		}
+		
 		
 		
 		File inputFile = new File(fileName);
@@ -66,6 +79,7 @@ public class InventoryManagement {
 				Beverage product = new Beverage(slotLocation, productName, price);
 				sellables.put(slotLocation, product);
 				orderedSellables.add(product);
+				sales.put(productName, 0);
 			}
 			
 			if (category.contentEquals("Chip")) {
@@ -73,12 +87,14 @@ public class InventoryManagement {
 				Chips product = new Chips(slotLocation, productName, price);
 				sellables.put(slotLocation,product);
 				orderedSellables.add(product);
+				sales.put(productName, 0);
 			}
 			if (category.contentEquals("Gum")) {
 				
 				Gum product = new Gum(slotLocation, productName, price);
 				sellables.put(slotLocation, product);
 				orderedSellables.add(product);
+				sales.put(productName, 0);
 			}
 			
 			if (category.contentEquals("Candy")) {
@@ -86,6 +102,7 @@ public class InventoryManagement {
 				Candy product = new Candy(slotLocation, productName, price);
 				sellables.put(slotLocation, product);
 				orderedSellables.add(product);
+				sales.put(productName, 0);
 			}
 		}
 	} catch (FileNotFoundException e) {
