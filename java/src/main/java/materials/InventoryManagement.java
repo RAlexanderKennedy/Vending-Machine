@@ -19,6 +19,8 @@ public class InventoryManagement {
 	private Map<String, Sellable> sellables = new HashMap<String, Sellable>();
 	private List<Sellable> orderedSellables = new ArrayList<Sellable>();
 	private Map<String, Integer> sales = new HashMap<String, Integer>();
+	private BigDecimal totalSales;
+	private File salesReport;
 	
 	public int getSize() {
 		return sellables.size();
@@ -30,6 +32,10 @@ public class InventoryManagement {
 	
 	public Integer getSalesAt(String productName) {
 		return sales.get(productName);
+	}
+	
+	public BigDecimal getTotalSales() {
+		return totalSales;
 	}
 	
 	public boolean sellableExists(String slotLocation) {
@@ -45,7 +51,9 @@ public class InventoryManagement {
 		Integer itemSold = sales.get(sellables.get(slotLocation).getName());
 		itemSold += 1;
 		sales.put(sellables.get(slotLocation).getName(),itemSold);
+		totalSales = totalSales.add(sellables.get(slotLocation).getPrice());
 	}
+	
 	
 	
 	public void restock(String fileName) {
@@ -60,7 +68,12 @@ public class InventoryManagement {
 			System.out.println("Audit error: log not found");
 		}
 		
-		
+		String time = dateTime.format(DateTimeFormatter.ofPattern(timeFormat));
+		File salesReport = new File("Sales Report: " + time + ".txt");
+		try {
+			salesReport.createNewFile();
+		} catch (IOException e1) {
+		}
 		
 		File inputFile = new File(fileName);
 		
@@ -112,6 +125,20 @@ public class InventoryManagement {
 	}
 
 }
+	
+	public void reportSales() {
+		
+		try(PrintWriter report = new PrintWriter((new FileOutputStream(salesReport,true)))) {
+			for (Sellable product : orderedSellables) {
+				report.println(product.getName() + "|" + sales.get(product.getName()));
+			}
+			
+			report.println("\n" + "TOTAL SALES: $" + totalSales);
+			
+		} catch (FileNotFoundException e) {
+
+		}
+	}
 	
 	public void viewProducts() {
 		for (Sellable product : orderedSellables) {
