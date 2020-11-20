@@ -6,9 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +22,8 @@ public class InventoryManagement {
 	private Map<String, Sellable> sellables = new HashMap<String, Sellable>();
 	private List<Sellable> orderedSellables = new ArrayList<Sellable>();
 	private Map<String, Integer> sales = new HashMap<String, Integer>();
-	private BigDecimal totalSales;
-	private File salesReport;
+	private BigDecimal totalSales = new BigDecimal(0);
+	private String salesReportFileName;
 	
 	public int getSize() {
 		return sellables.size();
@@ -35,6 +38,7 @@ public class InventoryManagement {
 	}
 	
 	public BigDecimal getTotalSales() {
+		totalSales = totalSales.setScale(2, RoundingMode.HALF_UP);
 		return totalSales;
 	}
 	
@@ -52,6 +56,7 @@ public class InventoryManagement {
 		itemSold += 1;
 		sales.put(sellables.get(slotLocation).getName(),itemSold);
 		totalSales = totalSales.add(sellables.get(slotLocation).getPrice());
+		totalSales = totalSales.setScale(2, RoundingMode.HALF_UP);
 	}
 	
 	
@@ -68,8 +73,17 @@ public class InventoryManagement {
 			System.out.println("Audit error: log not found");
 		}
 		
-		String time = dateTime.format(DateTimeFormatter.ofPattern(timeFormat));
-		File salesReport = new File("Sales Report: " + time + ".txt");
+		/*String timeFormat2 = "dd'_'MM'_'yyyy'-'hh_mm_ss_a";
+		String time = dateTime.format(DateTimeFormatter.ofPattern(timeFormat2));
+		this.salesReportFileName = "SalesReport:" + time + ".txt";
+		File salesReport = new File(salesReportFileName);*/
+		
+		
+		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss"); 
+		Date date = new Date();
+		salesReportFileName = "SalesReport-" + dt.format(date) + ".txt";
+		File salesReport = new File(salesReportFileName);
+		
 		try {
 			salesReport.createNewFile();
 		} catch (IOException e1) {
@@ -127,6 +141,23 @@ public class InventoryManagement {
 }
 	
 	public void reportSales() {
+		
+		File salesReport = new File(salesReportFileName);
+		
+		if (!salesReport.exists()) {
+			System.out.println("The File does not exist");
+			return;
+		}
+		
+		// overwriting file for update
+		System.out.println("Updating " + salesReportFileName);
+		try (PrintWriter writer = new PrintWriter(salesReport)) {
+			writer.print("");
+			writer.close();
+		} catch (FileNotFoundException e) {
+			
+		}
+		
 		
 		try(PrintWriter report = new PrintWriter((new FileOutputStream(salesReport,true)))) {
 			for (Sellable product : orderedSellables) {

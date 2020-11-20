@@ -11,7 +11,9 @@ public class VendingMachineCLI {
 
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
 	private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
-	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE };
+	private static final String MAIN_MENU_OPTION_EXIT = "Exit";
+	private static final String MAIN_MENU_SALES_REPORT = "Sales Report";
+	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTION_EXIT, MAIN_MENU_SALES_REPORT };
 	private static final String[] PURCHASE_MENU = {"Feed Money", "Select Product", "Finish Transaction", "Back"};
 	private static final String[] FEED_MONEY_MENU = {"1", "2", "5", "10", "Back"};
 
@@ -60,6 +62,12 @@ public class VendingMachineCLI {
 				
 					
 				}
+			}
+			else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
+				System.exit(1);
+			}
+			else if (choice.equals(MAIN_MENU_SALES_REPORT)) {
+				inventory.reportSales();
 			}
 		}
 	}
@@ -130,8 +138,8 @@ public class VendingMachineCLI {
 					// subtracting price from funds
 					funds.subtractAmount(sellable.getPrice());
 					System.out.println("Money remaining: $" + funds.getBalance());
-					// decreasing quantity of items by one
-					inventory.getSellableAt(userCode).decreaseQuantity();
+					// purchasing sellable
+					inventory.purchaseSellable(userCode);
 					// printing item message
 					System.out.println(sellable.printMethod());
 					valid = true;
