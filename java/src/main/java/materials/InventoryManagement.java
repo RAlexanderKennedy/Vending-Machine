@@ -34,15 +34,15 @@ public class InventoryManagement {
 	
 	
 	public void restock(String fileName) {
-		// overwriting Log.txt (if it already exists)
+		// adding restock to log.txt
+		String timeFormat = "dd'/'MM'/'yyyy' 'hh:mm:ss a";
 		File log = new File("Log.txt");
-		if (log.exists()) {
-			try (PrintWriter writer = new PrintWriter(log)) {
-				writer.print("");
-				writer.close();
-			} catch (FileNotFoundException e) {
-				
-			}
+		LocalDateTime dateTime = LocalDateTime.now();
+		
+		try(PrintWriter tracker = new PrintWriter(new FileOutputStream(log,true))){
+			tracker.println(dateTime.format(DateTimeFormatter.ofPattern(timeFormat)) + " " + "Restocking Vending Machine");
+		} catch (FileNotFoundException e) {
+			System.out.println("Audit error: log not found");
 		}
 		
 		
